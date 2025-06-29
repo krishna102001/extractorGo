@@ -3,11 +3,14 @@ package main
 import (
 	"log"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	var app *gin.Engine = gin.Default()
+
+	app.Use(cors.Default())
 
 	app.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{"msg": "Hello Krishna !! Basic setup done"})
