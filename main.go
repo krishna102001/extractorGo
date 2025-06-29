@@ -10,6 +10,7 @@ import (
 
 func main() {
 	var app *gin.Engine = gin.Default()
+
 	logic.Convert_pdf_to_image("/Users/krishnakantmaurya/Desktop/robots-war.pdf")
 
 	app.Use(cors.Default())
