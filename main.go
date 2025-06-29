@@ -5,10 +5,12 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/krishna102001/extract_image_from_pdf/logic"
 )
 
 func main() {
 	var app *gin.Engine = gin.Default()
+	logic.Convert_pdf_to_image("/Users/krishnakantmaurya/Desktop/robots-war.pdf")
 
 	app.Use(cors.Default())
 
