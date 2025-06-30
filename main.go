@@ -11,7 +11,8 @@ import (
 func main() {
 	var app *gin.Engine = gin.Default()
 
-	logic.Convert_pdf_to_image("/Users/krishnakantmaurya/Desktop/robots-war.pdf")
+	// logic.Convert_pdf_to_image("/Users/krishnakantmaurya/Desktop/robots-war.pdf")
+	logic.Extract_image_from_pdf("/Users/krishnakantmaurya/Desktop/Educational_Visit_to_Water_Treatment_Plant_Nashik.pdf")
 
 	app.Use(cors.Default())
 
