@@ -13,7 +13,7 @@ func main() {
 
 	// logic.Convert_pdf_to_image("robots-war.pdf")
 	// logic.Extract_image_from_pdf("Educational_Visit_to_Water_Treatment_Plant_Nashik.pdf")
-	logic.Extract_image_from_pdf_unicode("robots-war.pdf")
+	logic.Extract_image_from_pdf_unidoc("robots-war.pdf")
 
 	app.Use(cors.Default())
 
