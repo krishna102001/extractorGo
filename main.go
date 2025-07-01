@@ -6,6 +6,7 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/krishna102001/extract_image_from_pdf/logic"
+	"github.com/krishna102001/extract_image_from_pdf/routes"
 )
 
 func main() {
@@ -20,6 +21,10 @@ func main() {
 	app.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{"msg": "Hello Krishna !! Basic setup done"})
 	})
+
+	router := app.Group("/api/v1")
+
+	router.POST("/extract-pdf-image", routes.ExtractRoutes)
 
 	if err := app.Run(":8080"); err != nil {
 		log.Printf("Failed to run server on port no. : %s", "8080")
