@@ -24,7 +24,9 @@ func main() {
 
 	router := app.Group("/api/v1")
 
-	router.POST("/extract-pdf-image", routes.ExtractRoutes)
+	router.POST("/extract-pdf-image", routes.ExtractPDFImageRoutes)
+
+	router.POST("/convert-pdf-image", routes.ConvertPDFImageRoutes)
 
 	if err := app.Run(":8080"); err != nil {
 		log.Printf("Failed to run server on port no. : %s", "8080")
