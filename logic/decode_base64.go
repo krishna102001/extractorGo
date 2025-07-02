@@ -17,5 +17,5 @@ func DecodeBase64(st string) {
 	if err != nil {
 		log.Println("write", err)
 	}
-	log.Println("len : ", l)
+	log.Println("total len : ", l)
 }
