@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"errors"
 	"fmt"
 	"image/png"
 	"log"
@@ -10,15 +11,17 @@ import (
 	"github.com/gen2brain/go-fitz"
 )
 
-func Convert_pdf_to_image(pathFile string) {
+func Convert_pdf_to_image(pathFile string) error {
 	out_dir := "converted_img"
 	if err := os.MkdirAll(out_dir, 0755); err != nil { //creating a directory
 		log.Println("Failed to create a directory")
+		return errors.New("failed to create dir")
 	}
 
 	doc, err := fitz.New(pathFile) //opening a pdf file
 	if err != nil {
 		log.Println("Error occur during opening file", err)
+		return errors.New("failed to open file")
 	}
 
 	defer doc.Close() //closing the file when done with processing automatic
@@ -30,8 +33,16 @@ func Convert_pdf_to_image(pathFile string) {
 			continue
 		}
 		filePath := filepath.Join(out_dir, fmt.Sprintf("page_%d.png", i+1)) // joining a file path to save the image to desired location
-		f, _ := os.Create(filePath)                                         //creating a in converted_image directory file
-		png.Encode(f, img)                                                  //creating a image from RGBA Code and encode it to png
+		f, err := os.Create(filePath)                                       //creating a in converted_image directory file
+		if err != nil {
+			log.Println("failed to create the file ", err)
+			return errors.New("failed to create the file")
+		}
+		if err := png.Encode(f, img); err != nil { //creating a image from RGBA Code and encode it to png
+			log.Println("Failed to encode it into the png file ", err)
+			return errors.New("failed to encode the png")
+		}
 		f.Close()
 	}
+	return nil
 }
