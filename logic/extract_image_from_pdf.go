@@ -1,9 +1,11 @@
 package logic
 
 import (
+	"archive/zip"
 	"errors"
 	"fmt"
 	"image/png"
+	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -35,6 +37,17 @@ func Extract_image_from_pdf_unidoc(pathFile string) error {
 		log.Printf("Failed to create directory %s and error is %v", out_dir, err)
 		return errors.New("failed to create a directory")
 	}
+
+	// zip file creation program
+	zipFile, err := os.Create(filepath.Join(fmt.Sprint(out_dir), "extract_image.zip")) //created a zip file
+	if err != nil {
+		log.Printf("Failed to create zip file %v", err)
+		return errors.New("failed to create a zip file")
+	}
+	defer zipFile.Close()
+
+	zipWriter := zip.NewWriter(zipFile) //zip file writer initilaizied
+	defer zipWriter.Close()
 
 	doc, err := os.Open(pathFile) // open the pdf file
 	if err != nil {
@@ -99,6 +112,39 @@ func Extract_image_from_pdf_unidoc(pathFile string) error {
 				log.Println("Failed to encode in png format:", err)
 				return errors.New("failed to encode in png format ")
 			}
+
+			fileToZip, err := os.Open(filePath)
+			if err != nil {
+				log.Println("Failed to open the file:", err)
+				return errors.New("failed to open a file")
+			}
+
+			fileInfo, err := fileToZip.Stat()
+			if err != nil {
+				log.Printf("Failed to get the file info %v", err)
+				return errors.New("failed to file stat")
+			}
+
+			header, err := zip.FileInfoHeader(fileInfo)
+			if err != nil {
+				log.Println("Failed to create the file header info ", err)
+				return errors.New("failed to create file header")
+			}
+
+			header.Name = filePath
+
+			writer, err := zipWriter.CreateHeader(header)
+			if err != nil {
+				log.Println("Failed to add the file into zip", err)
+				return errors.New("failed to add the file in zip")
+			}
+
+			_, err = io.Copy(writer, fileToZip)
+			if err != nil {
+				log.Println("Failed to copy the content")
+				return errors.New("failed to copy the content")
+			}
+			fileToZip.Close()
 
 			f.Close() // closing the file immeditately a to prevent from resource leaks
 
