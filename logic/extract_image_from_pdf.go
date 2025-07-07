@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"image/png"
-	"io"
 	"log"
 	"os"
 	"path/filepath"
@@ -32,10 +31,13 @@ func Extract_image_from_pdf(pathFile string) {
 func Extract_image_from_pdf_unidoc(pathFile string) error {
 	log.Println("Started Extracting Embedded Images Using Unidoc pkg....")
 
-	var out_dir string = "extract_images_unidoc"    // output directory name
-	if err := os.Mkdir(out_dir, 0755); err != nil { // 755 owner can read ,write and execute will other can read
-		log.Printf("Failed to create directory %s and error is %v", out_dir, err)
-		return errors.New("failed to create a directory")
+	var out_dir string = "extract_images_unidoc" // output directory name
+	_, err := os.Stat(out_dir)
+	if os.IsNotExist(err) {
+		if err := os.Mkdir(out_dir, 0755); err != nil { // 755 owner can read ,write and execute will other can read
+			log.Printf("Failed to create directory %s and error is %v", out_dir, err)
+			return errors.New("failed to create a directory")
+		}
 	}
 
 	// zip file creation program
@@ -98,56 +100,18 @@ func Extract_image_from_pdf_unidoc(pathFile string) error {
 				log.Println("Failed to load the image ", err)
 				return errors.New("failed to load the images")
 			}
-			// log.Println(gimg)
-			filePath := filepath.Join(out_dir, fmt.Sprintf("page_%d_.png", total+1)) // create a file path
-			total++
-			f, err := os.Create(filePath) // creating a file
+
+			w, err := zipWriter.Create(fmt.Sprintf("page_%d.png", total+1))
 			if err != nil {
-				log.Println("Failed to create file:", err)
-				return errors.New("failed to create a file")
+				return fmt.Errorf("failed to create a zip file %d : %v", total, err)
 			}
 
-			err = png.Encode(f, gimg) // now encoding the image data on file
+			err = png.Encode(w, gimg) // now encoding the image data on file
 			if err != nil {
 				log.Println("Failed to encode in png format:", err)
-				return errors.New("failed to encode in png format ")
+				return errors.New("failed to encode in png format")
 			}
-
-			fileToZip, err := os.Open(filePath)
-			if err != nil {
-				log.Println("Failed to open the file:", err)
-				return errors.New("failed to open a file")
-			}
-
-			fileInfo, err := fileToZip.Stat()
-			if err != nil {
-				log.Printf("Failed to get the file info %v", err)
-				return errors.New("failed to file stat")
-			}
-
-			header, err := zip.FileInfoHeader(fileInfo)
-			if err != nil {
-				log.Println("Failed to create the file header info ", err)
-				return errors.New("failed to create file header")
-			}
-
-			header.Name = filePath
-
-			writer, err := zipWriter.CreateHeader(header)
-			if err != nil {
-				log.Println("Failed to add the file into zip", err)
-				return errors.New("failed to add the file in zip")
-			}
-
-			_, err = io.Copy(writer, fileToZip)
-			if err != nil {
-				log.Println("Failed to copy the content")
-				return errors.New("failed to copy the content")
-			}
-			fileToZip.Close()
-
-			f.Close() // closing the file immeditately a to prevent from resource leaks
-
+			total++
 		}
 	}
 	log.Println("PDF Extracting successfull")
