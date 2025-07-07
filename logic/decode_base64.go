@@ -16,9 +16,12 @@ func DecodeBase64(st string) error {
 	}
 
 	var out_pdf_file string = "out_pdf_file"
-	if err := os.Mkdir(out_pdf_file, 0755); err != nil {
-		log.Printf("Failed to make the directory %v", err)
-		return errors.New("failed to create directory")
+	_, err = os.Stat(out_pdf_file)
+	if os.IsNotExist(err) {
+		if err := os.Mkdir(out_pdf_file, 0755); err != nil {
+			log.Printf("Failed to make the directory %v", err)
+			return errors.New("failed to create directory")
+		}
 	}
 
 	filePath := filepath.Join(out_pdf_file, "sample.pdf")
