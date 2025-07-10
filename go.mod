@@ -8,6 +8,7 @@ require (
 	github.com/gin-gonic/gin v1.10.1
 	github.com/pdfcpu/pdfcpu v0.11.0
 	github.com/unidoc/unipdf/v3 v3.69.0
+	github.com/yeka/zip v0.0.0-20231116150916-03d6312748a9
 )
 
 require (

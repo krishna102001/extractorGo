@@ -1,7 +1,6 @@
 package logic
 
 import (
-	"archive/zip"
 	"errors"
 	"fmt"
 	"image/png"
@@ -12,6 +11,7 @@ import (
 	"github.com/pdfcpu/pdfcpu/pkg/api"
 	"github.com/unidoc/unipdf/v3/extractor"
 	"github.com/unidoc/unipdf/v3/model"
+	yw "github.com/yeka/zip"
 )
 
 func Extract_image_from_pdf(pathFile string) {
@@ -48,7 +48,7 @@ func Extract_image_from_pdf_unidoc(pathFile string) error {
 	}
 	defer zipFile.Close()
 
-	zipWriter := zip.NewWriter(zipFile) //zip file writer initilaizied
+	zipWriter := yw.NewWriter(zipFile) //zip file writer initilaizied
 	defer zipWriter.Close()
 
 	doc, err := os.Open(pathFile) // open the pdf file
@@ -101,7 +101,7 @@ func Extract_image_from_pdf_unidoc(pathFile string) error {
 				return errors.New("failed to load the images")
 			}
 
-			w, err := zipWriter.Create(fmt.Sprintf("page_%d.png", total+1))
+			w, err := zipWriter.Encrypt(fmt.Sprintf("page_%d.png", total+1), "krishna", yw.AES256Encryption)
 			if err != nil {
 				return fmt.Errorf("failed to create a zip file %d : %v", total, err)
 			}
