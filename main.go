@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/krishna102001/extract_image_from_pdf/middleware"
 	"github.com/krishna102001/extract_image_from_pdf/routes"
 )
 
@@ -19,9 +20,9 @@ func main() {
 
 	router := app.Group("/api/v1")
 
-	router.POST("/extract-pdf-image", routes.ExtractPDFImageRoutes)
+	router.POST("/extract-pdf-image", middleware.RateLimiter(), routes.ExtractPDFImageRoutes)
 
-	router.POST("/convert-pdf-image", routes.ConvertPDFImageRoutes)
+	router.POST("/convert-pdf-image", middleware.RateLimiter(), routes.ConvertPDFImageRoutes)
 
 	if err := app.Run(":8080"); err != nil {
 		log.Printf("Failed to run server on port no. : %s", "8080")
