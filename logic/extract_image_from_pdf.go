@@ -7,6 +7,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/pdfcpu/pdfcpu/pkg/api"
 	"github.com/unidoc/unipdf/v3/extractor"
@@ -41,7 +42,7 @@ func Extract_image_from_pdf_unidoc(pathFile string) error {
 	}
 
 	// zip file creation program
-	zipFile, err := os.Create(filepath.Join(fmt.Sprint(out_dir), "extract_image.zip")) //created a zip file
+	zipFile, err := os.Create(filepath.Join(out_dir, fmt.Sprintf("extracted_file_%v_.zip", time.Now()))) //created a zip file
 	if err != nil {
 		log.Printf("Failed to create zip file %v", err)
 		return errors.New("failed to create a zip file")
