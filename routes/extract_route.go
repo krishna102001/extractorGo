@@ -19,13 +19,14 @@ func ExtractPDFImageRoutes(c *gin.Context) {
 	}
 
 	//call the logic of decoding the string into base64
-	if err := logic.DecodeBase64(req.Input_Pdf_File); err != nil {
+	pdf_addr, err := logic.DecodeBase64(req.Input_Pdf_File)
+	if err != nil {
 		c.JSON(400, gin.H{"msg": "Check the base64 file"})
 		return
 	}
 
 	//call the logic to extract the pdf image from pdf file
-	if err := logic.Extract_image_from_pdf_unidoc("out_pdf_file/sample.pdf"); err != nil {
+	if err := logic.Extract_image_from_pdf_unidoc(pdf_addr); err != nil {
 		c.JSON(400, gin.H{"msg": "Failed to extract the pdf file"})
 	}
 
