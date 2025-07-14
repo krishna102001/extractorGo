@@ -115,6 +115,14 @@ func Extract_image_from_pdf_unidoc(pathFile string) error {
 			total++
 		}
 	}
-	log.Println("PDF Extracting successfull")
+	cld := Cloudinarycredentials()
+	zipPath := zipFile.Name()
+	log.Println("zip file name .................", zipPath)
+	zip_url, err := cld.UploadFile(zipPath, "extracted-data")
+	if err != nil {
+		log.Println("Failed to upload the file")
+		return err
+	}
+	log.Println("PDF Extracting successfull ", zip_url)
 	return nil
 }
