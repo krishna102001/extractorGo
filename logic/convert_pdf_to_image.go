@@ -83,5 +83,10 @@ func Convert_pdf_to_image(pathFile string) (string, error) {
 		return "", errors.New("failed to upload the file")
 	}
 	log.Println("Upload successfull...................")
+
+	if err := os.Remove(zipFile.Name()); err != nil {
+		log.Printf("Failed to delete the file %s and error is %v", zipFile.Name(), err)
+	}
+
 	return upld_url, nil
 }

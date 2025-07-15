@@ -141,5 +141,9 @@ func Extract_image_from_pdf_unidoc(pathFile string) (string, error) {
 	}
 	log.Println("uploading file successfull..........")
 
+	if err := os.Remove(zipFile.Name()); err != nil {
+		log.Printf("Failed to delete the file %s and error is %v", zipFile.Name(), err)
+	}
+
 	return zip_url, nil
 }
