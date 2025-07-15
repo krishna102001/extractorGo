@@ -7,7 +7,8 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"time"
+
+	"github.com/google/uuid"
 )
 
 func DecodeBase64(st string) (string, error) {
@@ -25,8 +26,14 @@ func DecodeBase64(st string) (string, error) {
 			return "", errors.New("failed to create directory")
 		}
 	}
+	//generating unique name
+	uniqueId, err := uuid.NewRandom()
+	if err != nil {
+		log.Println("failed to generate the uuid ", err)
+		return "", errors.New("failed to generate the uuid")
+	}
 
-	filePath := filepath.Join(out_pdf_file, fmt.Sprintf("sample_pdf_%v.pdf", time.Now()))
+	filePath := filepath.Join(out_pdf_file, fmt.Sprintf("sample_pdf_%v.pdf", uniqueId))
 
 	//creating a file
 	file, err := os.Create(filePath)
