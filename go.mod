@@ -3,9 +3,11 @@ module github.com/krishna102001/extract_image_from_pdf
 go 1.24.0
 
 require (
+	github.com/cloudinary/cloudinary-go/v2 v2.10.1
 	github.com/gen2brain/go-fitz v1.24.15
 	github.com/gin-contrib/cors v1.7.6
 	github.com/gin-gonic/gin v1.10.1
+	github.com/google/uuid v1.5.0
 	github.com/joho/godotenv v1.5.1
 	github.com/pdfcpu/pdfcpu v0.11.0
 	github.com/unidoc/unipdf/v3 v3.69.0
@@ -15,7 +17,6 @@ require (
 require (
 	github.com/bytedance/sonic v1.13.3 // indirect
 	github.com/bytedance/sonic/loader v0.2.4 // indirect
-	github.com/cloudinary/cloudinary-go/v2 v2.10.1 // indirect
 	github.com/cloudwego/base64x v0.1.5 // indirect
 	github.com/creasty/defaults v1.7.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
@@ -26,7 +27,6 @@ require (
 	github.com/go-playground/universal-translator v0.18.1 // indirect
 	github.com/go-playground/validator/v10 v10.26.0 // indirect
 	github.com/goccy/go-json v0.10.5 // indirect
-	github.com/google/uuid v1.5.0 // indirect
 	github.com/gorilla/schema v1.4.1 // indirect
 	github.com/hhrutter/lzw v1.0.0 // indirect
 	github.com/hhrutter/pkcs7 v0.2.0 // indirect
