@@ -75,7 +75,7 @@ func ExtractPDFImageRoutes(c *gin.Context) {
 		ResponseUrl string    `json:"respsone_url"`
 	}
 
-	if err = database.DB.Model(&database.Extract{}).Select("extract_id", "response_url").
+	if err = database.DB.Model(&database.ExtractsTable{}).Select("extract_id", "response_url").
 		Where("extract_id = ?", uuid.MustParse(ExtractId)).
 		First(&savedData).Error; err != nil {
 		log.Println("Failed to fetch the data from database", err)

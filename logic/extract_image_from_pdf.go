@@ -142,13 +142,13 @@ func Extract_image_from_pdf_unidoc(pathFile string) (string, error) {
 	}
 	log.Println("uploading file successfull..........")
 
-	var insertData = &database.Extract{
+	var insertData = &database.ExtractsTable{
 		DocName:     zipFile.Name(),
 		ResponseUrl: zip_url,
 	}
 
 	//----------------- saving to database ----------------
-	if err = database.DB.Model(&database.Extract{}).Create(&insertData).Error; err != nil {
+	if err = database.DB.Model(&database.ExtractsTable{}).Create(&insertData).Error; err != nil {
 		log.Printf("Error in Inserting the data into database %s", err.Error())
 		return "", errors.New("failed to save in the database")
 	}
