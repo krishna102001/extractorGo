@@ -5,12 +5,22 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+	"github.com/krishna102001/extract_image_from_pdf/database"
 	"github.com/krishna102001/extract_image_from_pdf/middleware"
 	"github.com/krishna102001/extract_image_from_pdf/routes"
 )
 
+func init() {
+	if err := godotenv.Load(); err != nil {
+		log.Fatal("Failed to intitalized the env file")
+	}
+}
+
 func main() {
 	var app *gin.Engine = gin.Default()
+
+	database.InitializedDB()
 
 	app.Use(cors.Default())
 
