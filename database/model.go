@@ -9,3 +9,9 @@ type ExtractsTable struct {
 	DocName     string    `gorm:"type:varchar(255);not null"`
 	ResponseUrl string    `gorm:"not null"`
 }
+
+type ConvertsTable struct {
+	ConvertId   uuid.UUID `gorm:"type:uuid;default:gen_random_uuid();primaryKey"`
+	DocName     string    `gorm:"not null"`
+	ResponseUrl string    `gorm:"not null"`
+}

@@ -30,7 +30,7 @@ func InitializedDB() {
 }
 
 func migrateDB() {
-	if err := DB.AutoMigrate(&ExtractsTable{}); err != nil {
+	if err := DB.AutoMigrate(&ExtractsTable{}, &ConvertsTable{}); err != nil {
 		log.Println("Failed to migrate the Database ", err.Error())
 	}
 	log.Println("Successfully migrated the table")
