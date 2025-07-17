@@ -8,6 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/krishna102001/extract_image_from_pdf/database"
 	"github.com/krishna102001/extract_image_from_pdf/logic"
 )
 
@@ -60,11 +61,21 @@ func ConvertPDFImageRoutes(c *gin.Context) {
 		return
 	}
 
-	var upld_url string
+	var convertId string
 	var err error
 	//call the logic to convert the pdf file into images
-	if upld_url, err = logic.Convert_pdf_to_image(pdf_addr); err != nil {
+	if convertId, err = logic.Convert_pdf_to_image(pdf_addr); err != nil {
 		c.JSON(400, gin.H{"msg": "Failed to upload the pdf file"})
+		return
+	}
+
+	var savedData = struct {
+		ConvertId   uuid.UUID `json:"convert_id"`
+		ResponseUrl string    `json:"response_url"`
+	}{}
+	if err = database.DB.Model(&database.ConvertsTable{}).Select("convert_id,response_url").Where("convert_id = ?", convertId).First(&savedData).Error; err != nil {
+		log.Println("Failed to fetch the data from database ", err)
+		c.JSON(500, gin.H{"msg": "failed to fetch the data"})
 		return
 	}
 	err = os.Remove(pdf_addr)
@@ -72,5 +83,5 @@ func ConvertPDFImageRoutes(c *gin.Context) {
 		log.Printf("Failed to remove the file %s from disk after upload error is %v ", pdf_addr, err)
 	}
 
-	c.JSON(201, gin.H{"url": upld_url})
+	c.JSON(201, gin.H{"data": savedData})
 }

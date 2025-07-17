@@ -10,6 +10,7 @@ import (
 
 	"github.com/gen2brain/go-fitz"
 	"github.com/google/uuid"
+	"github.com/krishna102001/extract_image_from_pdf/database"
 	yw "github.com/yeka/zip"
 )
 
@@ -74,7 +75,7 @@ func Convert_pdf_to_image(pathFile string) (string, error) {
 		}
 	}
 	log.Println("Successfully converted into images...............")
-
+	// ------------------- uploading image -----------------------
 	log.Println("Uploading file to cloudinary.....................")
 	cld := Cloudinarycredentials()
 	upld_url, err := cld.UploadFile(zipFile.Name(), "converted_image")
@@ -83,10 +84,18 @@ func Convert_pdf_to_image(pathFile string) (string, error) {
 		return "", errors.New("failed to upload the file")
 	}
 	log.Println("Upload successfull...................")
+	var insertData = &database.ConvertsTable{
+		DocName:     zipFile.Name(),
+		ResponseUrl: upld_url,
+	}
 
+	if err := database.DB.Model(&database.ConvertsTable{}).Create(insertData).Error; err != nil {
+		log.Println("Failed to insert the data into database ", err)
+		return "", errors.New("failed to inser the data")
+	}
 	if err := os.Remove(zipFile.Name()); err != nil {
 		log.Printf("Failed to delete the file %s and error is %v", zipFile.Name(), err)
 	}
 
-	return upld_url, nil
+	return insertData.ConvertId.String(), nil
 }
