@@ -8,17 +8,10 @@ import (
 
 	"github.com/cloudinary/cloudinary-go/v2"
 	"github.com/cloudinary/cloudinary-go/v2/api/uploader"
-	"github.com/joho/godotenv"
 )
 
 type CloudinaryConfig struct {
 	Client *cloudinary.Cloudinary
-}
-
-func init() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Failed to intitalized the env file")
-	}
 }
 
 func Cloudinarycredentials() *CloudinaryConfig {
