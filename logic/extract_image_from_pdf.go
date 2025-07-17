@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 
 	"github.com/google/uuid"
+	"github.com/krishna102001/extract_image_from_pdf/database"
 	"github.com/pdfcpu/pdfcpu/pkg/api"
 	"github.com/unidoc/unipdf/v3/extractor"
 	"github.com/unidoc/unipdf/v3/model"
@@ -141,9 +142,20 @@ func Extract_image_from_pdf_unidoc(pathFile string) (string, error) {
 	}
 	log.Println("uploading file successfull..........")
 
+	var insertData = &database.Extract{
+		DocName:     zipFile.Name(),
+		ResponseUrl: zip_url,
+	}
+
+	//----------------- saving to database ----------------
+	if err = database.DB.Model(&database.Extract{}).Create(&insertData).Error; err != nil {
+		log.Printf("Error in Inserting the data into database %s", err.Error())
+		return "", errors.New("failed to save in the database")
+	}
+
 	if err := os.Remove(zipFile.Name()); err != nil {
 		log.Printf("Failed to delete the file %s and error is %v", zipFile.Name(), err)
 	}
 
-	return zip_url, nil
+	return insertData.ExtractId.String(), nil
 }
