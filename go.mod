@@ -12,6 +12,8 @@ require (
 	github.com/pdfcpu/pdfcpu v0.11.0
 	github.com/unidoc/unipdf/v3 v3.69.0
 	github.com/yeka/zip v0.0.0-20231116150916-03d6312748a9
+	gorm.io/driver/postgres v1.6.0
+	gorm.io/gorm v1.30.0
 )
 
 require (
@@ -31,6 +33,12 @@ require (
 	github.com/hhrutter/lzw v1.0.0 // indirect
 	github.com/hhrutter/pkcs7 v0.2.0 // indirect
 	github.com/hhrutter/tiff v1.0.2 // indirect
+	github.com/jackc/pgpassfile v1.0.0 // indirect
+	github.com/jackc/pgservicefile v0.0.0-20240606120523-5a60cdf6a761 // indirect
+	github.com/jackc/pgx/v5 v5.7.5 // indirect
+	github.com/jackc/puddle/v2 v2.2.2 // indirect
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/jupiterrider/ffi v0.5.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.10 // indirect
@@ -55,6 +63,7 @@ require (
 	golang.org/x/crypto v0.39.0 // indirect
 	golang.org/x/image v0.27.0 // indirect
 	golang.org/x/net v0.41.0 // indirect
+	golang.org/x/sync v0.15.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
 	golang.org/x/text v0.26.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
