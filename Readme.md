@@ -99,5 +99,17 @@ Extractor go is a fast & secure backend services to extract the embedded images 
   OR
 
   ```bash
+    go build -o my-app .
+  ```
+
+  then
+
+  ```bash
+    ./my-app
+  ```
+
+  OR
+
+  ```bash
     air
   ```
