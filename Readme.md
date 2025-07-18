@@ -14,7 +14,9 @@ Extractor go is a fast & secure backend services to extract the embedded images 
 - To extract images from pdf make `POST` request to `api/v1/extract-pdf-image`.
 
   ```bash request-body(json)
-       {"input_pdf_file":"base64 text"}
+    {
+        "input_pdf_file":"base64 text"
+    }
   ```
 
   OR
@@ -24,29 +26,29 @@ Extractor go is a fast & secure backend services to extract the embedded images 
   ```
 
   ```bash response
-  { "data":{
-    "extract_id":"uuid",
-    "response_url":"https://cloudinary.com/......"
+    { "data":{
+        "extract_id":"uuid",
+        "response_url":"https://cloudinary.com/......"
+      }
     }
-  }
   ```
 
 - To get the saved response back make `GET` request to `api/v1/extract/:id`
 
   ```bash response
-  { "data":{
-    "extract_id":"uuid",
-    "response_url":"https://cloudinary.com/......"
+    { "data":{
+        "extract_id":"uuid",
+        "response_url":"https://cloudinary.com/......"
+      }
     }
-  }
   ```
 
 - To convert pdf pages into images make `POST` request to `api/v1/convert-pdf-image`.
 
   ```bash request-body(json)
-       {
+    {
         "input_pdf_file":"base64 text"
-       }
+    }
   ```
 
   OR
@@ -56,20 +58,20 @@ Extractor go is a fast & secure backend services to extract the embedded images 
   ```
 
   ```bash response
-  { "data":{
-    "convert_id":"uuid",
-    "response_url":"https://cloudinary.com/......"
+    { "data":{
+        "convert_id":"uuid",
+        "response_url":"https://cloudinary.com/......"
+       }
     }
-  }
   ```
 
 - To get the saved response back make `GET` request to `api/v1/convert/:id`
   ```bash response
-  { "data":{
-    "convert_id":"uuid",
-    "response_url":"https://cloudinary.com/......"
+    { "data":{
+        "convert_id":"uuid",
+        "response_url":"https://cloudinary.com/......"
+      }
     }
-  }
   ```
 
 ## How To Run project
@@ -77,7 +79,7 @@ Extractor go is a fast & secure backend services to extract the embedded images 
 - Clone this project
 
   ```bash
-       git clone https://github.com/krishna102001/extractorGo.git
+    git clone https://github.com/krishna102001/extractorGo.git
   ```
 
 - Make `.env` file copy all the content from `.env.example`
@@ -85,13 +87,13 @@ Extractor go is a fast & secure backend services to extract the embedded images 
 - Download the packages
 
   ```bash
-        go mod tidy
+    go mod tidy
   ```
 
 - Start the server
 
   ```bash
-      go run main.go
+    go run main.go
   ```
 
   OR
