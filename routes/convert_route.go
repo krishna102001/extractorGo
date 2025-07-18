@@ -99,7 +99,7 @@ func GetConvert(c *gin.Context) {
 		ResponseUrl string    `json:"response_url"`
 	}{}
 
-	if err := database.DB.Model(&database.ConvertsTable{}).Select("convert_id", "reponse_url").Where("convert_id =?", uuid.MustParse(id)).First(&savedData).Error; err != nil {
+	if err := database.DB.Model(&database.ConvertsTable{}).Select("convert_id", "response_url").Where("convert_id =?", uuid.MustParse(id)).First(&savedData).Error; err != nil {
 		log.Println("Failed to find the data from the database ", err)
 		c.JSON(500, gin.H{"msg": "failed to get the data"})
 		return
