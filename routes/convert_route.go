@@ -85,3 +85,24 @@ func ConvertPDFImageRoutes(c *gin.Context) {
 
 	c.JSON(201, gin.H{"data": savedData})
 }
+
+func GetConvert(c *gin.Context) {
+	id := c.Param("id")
+	if id == "" {
+		log.Println("Param is empty")
+		c.JSON(400, gin.H{"msg": "invalid param id"})
+		return
+	}
+
+	var savedData = struct {
+		ConvertId   uuid.UUID `json:"convert_id"`
+		ResponseUrl string    `json:"response_url"`
+	}{}
+
+	if err := database.DB.Model(&database.ConvertsTable{}).Select("convert_id", "reponse_url").Where("convert_id =?", uuid.MustParse(id)).First(&savedData).Error; err != nil {
+		log.Println("Failed to find the data from the database ", err)
+		c.JSON(500, gin.H{"msg": "failed to get the data"})
+		return
+	}
+	c.JSON(200, gin.H{"data": savedData})
+}

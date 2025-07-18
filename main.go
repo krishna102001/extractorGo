@@ -32,7 +32,11 @@ func main() {
 
 	router.POST("/extract-pdf-image", middleware.RateLimiter(), routes.ExtractPDFImageRoutes)
 
+	router.GET("/get/extract/:id", middleware.RateLimiter(), routes.GetExtract)
+
 	router.POST("/convert-pdf-image", middleware.RateLimiter(), routes.ConvertPDFImageRoutes)
+
+	router.GET("/get/convert/:id", middleware.RateLimiter(), routes.GetConvert)
 
 	if err := app.Run(":8080"); err != nil {
 		log.Printf("Failed to run server on port no. : %s", "8080")

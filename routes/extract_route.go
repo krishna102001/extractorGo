@@ -89,3 +89,23 @@ func ExtractPDFImageRoutes(c *gin.Context) {
 	}
 	c.JSON(201, gin.H{"data": savedData})
 }
+
+func GetExtract(c *gin.Context) {
+	id := c.Param("id")
+	if id == "" {
+		log.Println("Param is empty")
+		c.JSON(400, gin.H{"msg": "invalid param id"})
+		return
+	}
+	var savedData = struct {
+		ExtractId   uuid.UUID `json:"extract_id"`
+		ResponseUrl string    `json:"response_url"`
+	}{}
+
+	if err := database.DB.Model(&database.ExtractsTable{}).Select("extract_id", "response_url").Where("extract_id =?", uuid.MustParse(id)).First(&savedData).Error; err != nil {
+		log.Println("Failed to find the data from the database ", err)
+		c.JSON(500, gin.H{"msg": "failed to get the data"})
+		return
+	}
+	c.JSON(200, gin.H{"data": savedData})
+}
